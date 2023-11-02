@@ -10,11 +10,13 @@ import {
   Res,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthorsService } from './authors.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 
 @Controller('authors')
+@ApiTags('Authors')
 export class AuthorsController {
   constructor(private readonly authorsService: AuthorsService) {}
 

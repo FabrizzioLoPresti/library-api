@@ -10,11 +10,13 @@ import {
   Res,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 
 @Controller('books')
+@ApiTags('Books')
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
