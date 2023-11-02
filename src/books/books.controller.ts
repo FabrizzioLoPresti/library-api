@@ -38,9 +38,10 @@ export class BooksController {
 
       if (!books || books.length === 0) throw new Error('No books found');
 
-      res.status(200).json(books);
+      res.status(200).send(books);
+      // return books;
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).send({ message: error.message });
     }
   }
 
@@ -58,8 +59,20 @@ export class BooksController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.booksService.update(+id, updateBookDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateBookDto: UpdateBookDto,
+    @Res() res: Response,
+  ) {
+    try {
+      const book = await this.booksService.update(+id, updateBookDto);
+
+      if (!book) throw new Error('Book not found');
+
+      res.status(200).json(book);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   }
 
   @Delete(':id')
@@ -70,6 +83,22 @@ export class BooksController {
       if (!book) throw new Error('Book not found');
 
       res.status(200).json({ message: 'Book deleted' });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  @Get('/average/:id')
+  async getAverageRating(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const book = await this.booksService.findOne(+id);
+
+      if (!book) throw new Error('Book not found');
+
+      res.status(200).json({
+        id: book.id.toString(),
+        average: (book.pages / book.chapters).toFixed(2),
+      });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
