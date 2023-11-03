@@ -74,6 +74,10 @@ Nest is [MIT licensed](LICENSE).
 
 # 1ª Prueba técnica React y Nodejs
 
+Video Prueba Tecnica React + Node -> Tests: [PRUEBA TÉCNICA de React para Junior y Trainee](https://www.youtube.com/watch?v=JW_x-Tq5Vt0)
+
+Video Nest.js and Swagger -> JWT Bearer Token: [Aprende a documentar tu API REST como un PRO - Swagger y Nest.js](https://www.youtube.com/watch?v=Gct2IXPicoU)
+
 > Te damos la bienvenida a la primera prueba técnica del proceso de selección como Senior Software Typescript Developer con React y Nodejs. La prueba consiste en lo siguiente:
 
 ### Ejercicio 1. Añadir y eliminar elementos de una lista (React)
