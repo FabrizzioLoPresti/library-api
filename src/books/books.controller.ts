@@ -36,8 +36,6 @@ export class BooksController {
     try {
       const books = await this.booksService.findAll();
 
-      if (!books || books.length === 0) throw new Error('No books found');
-
       res.status(200).send(books);
       // return books;
     } catch (error) {
