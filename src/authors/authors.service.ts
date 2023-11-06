@@ -9,15 +9,19 @@ export class AuthorsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createAuthorDto: CreateAuthorDto): Promise<Author> {
-    return this.prisma.author.create({
+    const newAuthor = await this.prisma.author.create({
       data: {
         name: createAuthorDto.name,
       },
     });
+
+    if (!newAuthor) throw new Error('Author not created');
+
+    return newAuthor;
   }
 
   async findAll(): Promise<Author[]> {
-    return this.prisma.author.findMany({
+    const authors = await this.prisma.author.findMany({
       include: {
         BookToAuthor: {
           select: {
@@ -26,10 +30,14 @@ export class AuthorsService {
         },
       },
     });
+
+    if (!authors) throw new Error('Authors not found');
+
+    return authors;
   }
 
   async findOne(id: number): Promise<Author> {
-    return this.prisma.author.findUnique({
+    const author = await this.prisma.author.findUnique({
       where: {
         id,
       },
@@ -41,10 +49,14 @@ export class AuthorsService {
         },
       },
     });
+
+    if (!author) throw new Error('Author not found');
+
+    return author;
   }
 
   async update(id: number, updateAuthorDto: UpdateAuthorDto): Promise<Author> {
-    return this.prisma.author.update({
+    const updatedAuthor = await this.prisma.author.update({
       where: {
         id,
       },
@@ -52,13 +64,21 @@ export class AuthorsService {
         name: updateAuthorDto.name,
       },
     });
+
+    if (!updatedAuthor) throw new Error('Author not found');
+
+    return updatedAuthor;
   }
 
   async remove(id: number): Promise<Author> {
-    return this.prisma.author.delete({
+    const removedUser = await this.prisma.author.delete({
       where: {
         id,
       },
     });
+
+    if (!removedUser) throw new Error('Author not found');
+
+    return removedUser;
   }
 }

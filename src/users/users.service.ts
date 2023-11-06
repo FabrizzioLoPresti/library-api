@@ -9,37 +9,61 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    return this.prisma.user.create({
+    const userCreated = await this.prisma.user.create({
       data: createUserDto,
     });
+
+    if (!userCreated) throw new Error('User not created');
+
+    return userCreated;
   }
 
   async findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
+    const users = await this.prisma.user.findMany();
+
+    if (!users) throw new Error('Users not found');
+
+    return users;
   }
 
   async findOne(id: number): Promise<User> {
-    return this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id },
     });
+
+    if (!user) throw new Error('User not found');
+
+    return user;
   }
 
   async findOneByUsername(username: string): Promise<User> {
-    return this.prisma.user.findFirst({
+    const userName = await this.prisma.user.findFirst({
       where: { name: username },
     });
+
+    if (!userName) throw new Error('User not found');
+
+    return userName;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    return this.prisma.user.update({
+    const userUpdated = await this.prisma.user.update({
       where: { id },
       data: updateUserDto,
     });
+
+    if (!userUpdated) throw new Error('User not found');
+
+    return userUpdated;
   }
 
   async remove(id: number): Promise<User> {
-    return this.prisma.user.delete({
+    const userRemoved = await this.prisma.user.delete({
       where: { id },
     });
+
+    if (!userRemoved) throw new Error('User not found');
+
+    return userRemoved;
   }
 }

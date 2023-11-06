@@ -25,8 +25,6 @@ export class BooksController {
     try {
       const book = await this.booksService.create(createBookDto);
 
-      if (!book) throw new Error('Book not created');
-
       res.status(201).json(book);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -52,8 +50,6 @@ export class BooksController {
     try {
       const book = await this.booksService.findOne(+id);
 
-      if (!book) throw new Error('Book not found');
-
       res.status(200).json(book);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -69,8 +65,6 @@ export class BooksController {
     try {
       const book = await this.booksService.update(+id, updateBookDto);
 
-      if (!book) throw new Error('Book not found');
-
       res.status(200).json(book);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -82,8 +76,6 @@ export class BooksController {
     try {
       const book = await this.booksService.remove(+id);
 
-      if (!book) throw new Error('Book not found');
-
       res.status(200).json({ message: 'Book deleted' });
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -94,8 +86,6 @@ export class BooksController {
   async getAverageRating(@Param('id') id: string, @Res() res: Response) {
     try {
       const book = await this.booksService.findOne(+id);
-
-      if (!book) throw new Error('Book not found');
 
       res.status(200).json({
         id: book.id.toString(),

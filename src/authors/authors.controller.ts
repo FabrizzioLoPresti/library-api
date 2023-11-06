@@ -25,8 +25,6 @@ export class AuthorsController {
     try {
       const author = await this.authorsService.create(createAuthorDto);
 
-      if (!author) throw new Error('Author not created');
-
       res.status(201).json(author);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -38,8 +36,6 @@ export class AuthorsController {
     try {
       const authors = await this.authorsService.findAll();
 
-      if (!authors || authors.length === 0) throw new Error('No authors found');
-
       res.status(200).json(authors);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -50,8 +46,6 @@ export class AuthorsController {
   async findOne(@Param('id') id: string, @Res() res: Response) {
     try {
       const author = await this.authorsService.findOne(+id);
-
-      if (!author) throw new Error('Author not found');
 
       res.status(200).json(author);
     } catch (error) {
@@ -68,8 +62,6 @@ export class AuthorsController {
     try {
       const author = await this.authorsService.update(+id, updateAuthorDto);
 
-      if (!author) throw new Error('Author not found');
-
       res.status(200).json(author);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -80,8 +72,6 @@ export class AuthorsController {
   async remove(@Param('id') id: string, @Res() res: Response) {
     try {
       const author = await this.authorsService.remove(+id);
-
-      if (!author) throw new Error('Author not found');
 
       res.status(200).json({ message: 'Author deleted' });
     } catch (error) {

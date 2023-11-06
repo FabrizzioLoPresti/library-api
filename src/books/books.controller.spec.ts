@@ -75,7 +75,9 @@ describe('BooksController', () => {
     });
 
     it('should handle error when no books are found', async () => {
-      jest.spyOn(service, 'findAll').mockResolvedValue([]);
+      jest.spyOn(service, 'findAll').mockImplementation(async () => {
+        throw new Error('No books found');
+      });
 
       await controller.findAll(responseMock);
 

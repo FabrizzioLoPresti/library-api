@@ -21,16 +21,20 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
+    try {
+      const user = await this.usersService.create(createUserDto);
+
+      res.status(201).send(user);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
   }
 
   @Get()
   async findAll(@Res() res: Response) {
     try {
       const users = await this.usersService.findAll();
-
-      if (!users) throw new Error('Users not found');
 
       res.status(200).send(users);
     } catch (error) {
@@ -39,17 +43,39 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  async findOne(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const user = await this.usersService.findOne(+id);
+
+      res.status(200).send(user);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Res() res: Response,
+  ) {
+    try {
+      const user = await this.usersService.update(+id, updateUserDto);
+
+      res.status(200).send(user);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  async remove(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const user = await this.usersService.remove(+id);
+
+      res.status(200).send(user);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
   }
 }

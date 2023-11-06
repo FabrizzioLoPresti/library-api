@@ -39,11 +39,13 @@ export class BooksService {
     // });
 
     this.prisma.$disconnect();
+    if (!newBook) throw new Error('Book not created');
+
     return newBook;
   }
 
   async findAll(): Promise<Book[]> {
-    return this.prisma.book.findMany({
+    const books = await this.prisma.book.findMany({
       include: {
         BookToAuthor: {
           select: {
@@ -52,10 +54,14 @@ export class BooksService {
         },
       },
     });
+
+    if (!books || books.length === 0) throw new Error('No books found');
+
+    return books;
   }
 
   async findOne(id: number): Promise<Book> {
-    return this.prisma.book.findUnique({
+    const book = await this.prisma.book.findUnique({
       where: {
         id,
       },
@@ -67,10 +73,14 @@ export class BooksService {
         },
       },
     });
+
+    if (!book) throw new Error('Book not found');
+
+    return book;
   }
 
   async update(id: number, updateBookDto: UpdateBookDto): Promise<Book> {
-    return this.prisma.book.update({
+    const updatedBook = await this.prisma.book.update({
       where: {
         id,
       },
@@ -94,13 +104,21 @@ export class BooksService {
         },
       },
     });
+
+    if (!updatedBook) throw new Error('Book not found');
+
+    return updatedBook;
   }
 
   async remove(id: number): Promise<Book> {
-    return this.prisma.book.delete({
+    const removedBook = await this.prisma.book.delete({
       where: {
         id,
       },
     });
+
+    if (!removedBook) throw new Error('Book not found');
+
+    return removedBook;
   }
 }
